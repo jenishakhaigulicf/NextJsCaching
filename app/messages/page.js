@@ -1,6 +1,17 @@
 import Messages from "@/components/messages";
+import { unstable_noStore } from "next/cache";
+
+// this is same as the next revalidate option in the fetch
+// export is needed
+// revalidate is a reserved word
+// export const revalidate = 5;
+// export const dynamic = "force-dynamic"; // same as no-store
 
 export default async function MessagesPage() {
+  // this is more recommended
+  // than this export const dynamic = "force-dynamic";
+  // unstable_noStore();
+
   // here same request is in two places
   // but when refreshing the page only one api gets called
   // because nextJs caches
