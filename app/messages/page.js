@@ -5,7 +5,13 @@ export default async function MessagesPage() {
   // but when refreshing the page only one api gets called
   // because nextJs caches
   // this is called request memoization
-  const response = await fetch("http://localhost:8080/messages");
+  const response = await fetch("http://localhost:8080/messages", {
+    // cache: "no-store", //Next15
+    // cache: "force-cache", // Next14
+    // next: {
+    //   revalidate: 5, // 5secs to wait for revalidation
+    // },
+  });
   const messages = await response.json();
 
   if (!messages || messages.length === 0) {
