@@ -1,4 +1,5 @@
 import Messages from "@/components/messages";
+import { getMessages } from "@/lib/messages";
 import { unstable_noStore } from "next/cache";
 
 // this is same as the next revalidate option in the fetch
@@ -19,21 +20,25 @@ export default async function MessagesPage() {
   // but when refreshing the page only one api gets called
   // because nextJs caches
   // this is called request memoization
-  const response = await fetch("http://localhost:8080/messages", {
-    // cache: "no-store", //Next15
-    // -------
-    // cache: "force-cache", // Next14
-    // -------
-    // next: {
-    //   revalidate: 5, // 5secs to wait for revalidation
-    // },
-    // -------
-    // tag can be useful when revalidating different data fetch at the same time
-    // same tag can be used for the different fetches
-    // and revalidateTag("tagName") can be done to revalidate all
-    // next: { tags: ["msg"] },
-  });
-  const messages = await response.json();
+  // --------
+  // not using fetch
+  // const response = await fetch("http://localhost:8080/messages", {
+  //   // cache: "no-store", //Next15
+  //   // -------
+  //   // cache: "force-cache", // Next14
+  //   // -------
+  //   // next: {
+  //   //   revalidate: 5, // 5secs to wait for revalidation
+  //   // },
+  //   // -------
+  //   // tag can be useful when revalidating different data fetch at the same time
+  //   // same tag can be used for the different fetches
+  //   // and revalidateTag("tagName") can be done to revalidate all
+  //   // next: { tags: ["msg"] },
+  // });
+  // const messages = await response.json();
+
+  const messages = await getMessages();
 
   if (!messages || messages.length === 0) {
     return <p>No messages found</p>;
